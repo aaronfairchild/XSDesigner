@@ -1,0 +1,23 @@
+** catch all bad input
+*HEADING
+Planar frame (Units: m, N)
+*nodal coordinates
+1 0.0 0.0
+2 0.0 5.0
+3 4.0 7.0
+*nodal fixity
+1 specified specified specified 0.0 0.0 0.0
+3 specified specified specified 0.0 0.0 0.0
+*nodal loads
+*material data
+1 200e9 0.3 1e-4
+*cross-sectional data
+1 isection 1 2 3 4
+*element data
+1 1 2 1 1
+2 2 3 1 1
+*element loads
+1 dly' -4000.0   -4000.0
+2 ploady' 2.236 -3577.71
+2 ploadx' 2.236 447.2
+*end

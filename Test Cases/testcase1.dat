@@ -1,0 +1,18 @@
+*heading 
+Beam (units: m,  N)
+*nodal coordinates
+1, 0.0, 0.0
+2, 10.0, 0.0
+*nodal fixity
+1, specified, specified, specified, 0.0, 0.0, 0.0
+2, free, free, free, 0.0, 0.0, 0.0
+*nodal loads
+2 0.0 -1000.0 0.0
+*material data
+1, 200.0e9, 0.3, 1e-5
+*cross-sectional data
+1, rects, 0.1, 0.1
+*element data
+1, 1, 2, 1, 1
+*element loads
+*end
