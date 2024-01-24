@@ -1,18 +1,38 @@
-*heading 
-Beam (units: m,  N)
-*nodal coordinates
-1, 0.0, 0.0
-2, 10.0, 0.0
-*nodal fixity
-1, specified, specified, specified, 0.0, 0.0, 0.0
-2, free, free, free, 0.0, 0.0, 0.0
-*nodal loads
-2 0.0 -1000.0 0.0
-*material data
-1, 200.0e9, 0.3, 1e-5
-*cross-sectional data
-1, rects, 0.1, 0.1
-*element data
-1, 1, 2, 1, 1
-*element loads
-*end
+*HEADING 
+Sample American Input
+
+*UNIT MODE
+United States Customary
+
+*COLUMN OR BEAM
+Column
+
+*CONCRETE MATERIAL PROPERTIES
+**Format: [Comp. Strength (psi)], [Density (pcf)], [Poisson's Ratio]
+	      3000,                   150,             0.2
+
+*REINFORCEMENT MATERIAL PROPERTIES
+**Format: [Yield Strength (ksi)], [Modulus (ksi)], [Density (pcf)]
+	      60,                     29000,           490
+
+*GEOMETRY
+**Format: [XS Type], [Dim. 1 (in)], [Dim. 2 (in)], [Dim. 3 (in)], [Dim. 4 (in)]
+          T,         1.5,          
+
+*XS REINFORCEMENTS
+**Format: [Location/Type], [Row Number], [Number of Bars], [Bar Size (Prefix #)], [Spacing (in)], [H. Edge (in)], [V. Edge (in)]
+          Top,       	   1,            4,                #5,                    2,              0
+          Bottom,          1,            4,                #5,                    2,              0
+          Bottom,   	   2,            3,                #5,                    2, 	          2
+          Radial,          1,            4,                #3,                    EQL,            0
+
+*OUT OF PLANE REINFORCEMENTS
+**Format: [Type],  [Bar Size], [Spacing 1 (in)], [Dist. 1 (in)], [Spacing 2 (in)], [Dist. 2 (in)], [Spacing 3 (in)], [Dist. 3 (in)]
+		  Stirrup, #3,         6,                36,             12,               24,        
+
+*FORCES
+**Format: [LOCATION] [x (kip)], [y (kip)], [z-moment (kip-in)] (MUST INCLUDE START AND END)
+         START,      10,        10,        5
+         END,        0,         0,         0
+
+*END

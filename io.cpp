@@ -32,10 +32,9 @@ void CFrame::Banner (std::ostream& OF)
 {
     OF << '\n';
     OF << "\t\t--------------------------------------------" << '\n';
-    OF << "\t\t         Planar Frame Analysis Program      " << '\n';
-    OF << "\t\tIntroduction to Structural Analysis & Design" << '\n';
-    OF << "\t\t           (c) 2000-22, S. D. Rajan         " << '\n';
-    OF << "\t\t        Enhanced By: Aaron Fairchild        " << '\n';
+    OF << "\t\t     XS Designer -- Reinforced Concrete     " << '\n';
+    OF << "\t\t          CEE 593: Applied Project          " << '\n';
+    OF << "\t\t            By: Aaron Fairchild            " << '\n';
     OF << "\t\t--------------------------------------------" << '\n';
 }
 
@@ -56,7 +55,7 @@ void CFrame::PrepareIO (int argc, char *argv[])
         m_FIO.OpenOutputFileByName ("Complete output file name: ", m_FileOutput,
                                     std::ios::out);
     }
-    else if (argc == 3) // planarframe input_file output_file
+    else if (argc == 3) // XSDesigner input_file output_file
     {
         m_FileInput.open (argv[1], std::ios::in);
         if (!m_FileInput)
@@ -79,8 +78,7 @@ void CFrame::PrepareIO (int argc, char *argv[])
 
 void CFrame::ReadProblemSize ()
 // ---------------------------------------------------------------------------
-// Function: reads the size of the problem from input file but does not
-//           store data
+// Function: reads the number of reinforcement groups (in and out of plane)
 // Input:    none
 // Output:   none
 // ---------------------------------------------------------------------------
@@ -92,30 +90,24 @@ void CFrame::ReadProblemSize ()
         m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
                            m_nTokens, m_strDelimiters, m_strComment,
                            bEOF);
-        if (m_strVTokens[0] != "*heading")
+        if (m_strVTokens[0] != "*HEADING")
             IOErrorHandler (ERRORCODE::INVALIDINPUT);
 
         m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
                            m_nTokens, m_strDelimiters, m_strComment,
                            bEOF);
 
-        // nodal coordinates
+        // Unit Mode
         m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
                            m_nTokens, m_strDelimiters, m_strComment,
                            bEOF);
-        if (m_strVTokens[0] != "*nodal" && m_strVTokens[1] != "coordinates")
+        if (m_strVTokens[0] != "*UNIT" && m_strVTokens[1] != "MODE")
             IOErrorHandler (ERRORCODE::INVALIDINPUT);
-        for (;;)
-        {
-            m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
-                               m_nTokens, m_strDelimiters, m_strComment,
-                               bEOF);
-            if (m_strVTokens[0] == "*nodal" && m_strVTokens[1] == "fixity")
-                break;
-            ++m_nNodes;
-        }
+        m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
+            m_nTokens, m_strDelimiters, m_strComment,
+            bEOF);
 
-        // nodal fixity
+        // Member Type
         for (;;)
         {
             m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
@@ -125,7 +117,7 @@ void CFrame::ReadProblemSize ()
                 break;
         }
 
-        // nodal loads
+        // Concrete Material Properties
         for (;;)
         {
             m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
@@ -135,7 +127,7 @@ void CFrame::ReadProblemSize ()
                 break;
         }
 
-        // material data
+        // Reinforcement Material Properties
         for (;;)
         {
             m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
@@ -146,7 +138,7 @@ void CFrame::ReadProblemSize ()
             ++m_nMatGroups;
         }
 
-        // cross-sectional data
+        // Element Geometry
         for (;;)
         {
             m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
@@ -157,7 +149,7 @@ void CFrame::ReadProblemSize ()
             ++m_nEPGroups;
         }
 
-        // element data
+        // Cross-Sectional Reinforcement Data
         for (;;)
         {
             m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
@@ -168,12 +160,23 @@ void CFrame::ReadProblemSize ()
             ++m_nElements;
         }
 
-        // element loads
+        // Out of Plane Reinforcement Data
         for (;;)
         {
             m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
                                m_nTokens, m_strDelimiters, m_strComment,
                                bEOF);
+            if (m_strVTokens[0] == "*end")
+                break;
+            ++m_nElementLoads;
+        }
+
+        // Forces and Moments
+        for (;;)
+        {
+            m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
+                m_nTokens, m_strDelimiters, m_strComment,
+                bEOF);
             if (m_strVTokens[0] == "*end")
                 break;
             ++m_nElementLoads;
