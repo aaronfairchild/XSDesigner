@@ -1,14 +1,13 @@
-/*********************************************
-Program Planar Frame
-Copyright(c) 2000-22, S. D. Rajan
-All rights reserved
+/**********************************************
+Concrete and Steel Cross-Section Design Program
 
-Modified by: Aaron Fairchild
-Date: 11/20/2023
+Created by: Aaron Fairchild
+Based on the work of: S.B. Rajan
+Date: Spring 2024
 
-Introduction to Structural Analysis and Design
-Object-Oriented Numerical Analysis
-*********************************************/
+TODO:
+
+**********************************************/
 #pragma once
 
 class CMaterial
@@ -19,13 +18,24 @@ class CMaterial
 
         // accessor functions
         float GetYM () const;
-        float GetCTE () const;
+        float GetCompStr () const;
+        float GetYieldStr () const;
+        float GetDensity () const;
+        float GetPoisson () const;
 
         // modifier functions
         void SetYM (const float);
-        void SetCTE (const float);
+        void SetCompStr (const float);
+        void SetYieldStr (const float);
+        void SetDensity (const float);
+        void SetPoisson (const float);
+
+
 
     private:
         float m_fYM;   // young's modulus
-        float m_fCTE;  // coef of thermal expansion
+        float m_fCompStr; // compressive strength
+        float m_fYieldStr; // yield strength
+        float m_fDensity; // density
+        float m_fPoisson; // poisson's ratio
 };

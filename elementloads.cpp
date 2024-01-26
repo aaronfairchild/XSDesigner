@@ -79,9 +79,9 @@ void CElementLoads::SetValues (const int nE, const ELType Type,
 void CElementLoads::GetENF (CVector<float>& fV1, CVector<float>& fV2,
                             const float fLength) const
 // ---------------------------------------------------------------------------
-// Function: gets the equivalent nodal forces
-// Input:    vectors to store ENF at start node and end node, element length
-// Output:   the two vectors suitably populated
+// Function: Gets the equivalent nodal forces
+// Input:    Vectors to store ENF at start node and end node, element length
+// Output:   The two vectors suitably populated
 // ---------------------------------------------------------------------------
 {
     fV1.Set(0.0f); fV2.Set(0.0f);

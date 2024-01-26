@@ -1,76 +1,134 @@
-/*********************************************
-Program Planar Frame
-Copyright(c) 2000-22, S. D. Rajan
-All rights reserved
+/**********************************************
+Concrete and Steel Cross-Section Design Program
 
-Modified by: Aaron Fairchild
-Date: 11/20/2023
+Created by: Aaron Fairchild
+Based on the work of: S.B. Rajan
+Date: Spring 2024
 
-Introduction to Structural Analysis and Design
-Object-Oriented Numerical Analysis
+TODO:
 
-Implementation of the CMaterial class.
-
-*********************************************/
+**********************************************/
 #include "material.h"
 
 CMaterial::CMaterial ()
 // ---------------------------------------------------------------------------
-// Function: default constructor
-// Input:    none
-// Output:   none
+// Function: Default constructor
+// Input:    None
+// Output:   None
 // ---------------------------------------------------------------------------
 {
     m_fYM = 0.0f;
-    m_fCTE = 0.0f;
+    m_fCompStr = 0.0f;
+    m_fYieldStr = 0.0f;
+    m_fDensity = 0.0f;
+    m_fPoisson = 0.0f;
 }
 
 CMaterial::~CMaterial ()
 // ---------------------------------------------------------------------------
-// Function: destructor
-// Input:    none
-// Output:   none
+// Function: Destructor
+// Input:    None
+// Output:   None
 // ---------------------------------------------------------------------------
 {
 }
 
 float CMaterial::GetYM () const
 // ---------------------------------------------------------------------------
-// Function: gets the young's modulus value
-// Input:    none
-// Output:   returns the YM value
+// Function: Gets the young's modulus value
+// Input:    None
+// Output:   Returns the YM value
 // ---------------------------------------------------------------------------
 {
     return m_fYM;
 }
 
-float CMaterial::GetCTE () const
+float CMaterial::GetCompStr () const
 // ---------------------------------------------------------------------------
-// Function: gets the coef of thermal expansion value
-// Input:    none
-// Output:   returns the CTE value
+// Function: Gets the compressive strength value
+// Input:    None
+// Output:   Returns the compressive strength
 // ---------------------------------------------------------------------------
 {
-    return m_fCTE;
+    return m_fCompStr;
+}
+
+float CMaterial::GetYieldStr() const
+// ---------------------------------------------------------------------------
+// Function: Gets the yield strength value
+// Input:    None
+// Output:   Returns the yield strength
+// ---------------------------------------------------------------------------
+{
+    return m_fYieldStr;
+}
+
+float CMaterial::GetDensity() const
+// ---------------------------------------------------------------------------
+// Function: Gets the density value
+// Input:    None
+// Output:   Returns the density value
+// ---------------------------------------------------------------------------
+{
+    return m_fDensity;
+}
+
+float CMaterial::GetPoisson() const
+// ---------------------------------------------------------------------------
+// Function: Gets Poisson's ratio value
+// Input:    None
+// Output:   Returns the poissons ratio value
+// ---------------------------------------------------------------------------
+{
+    return m_fPoisson;
 }
 
 void CMaterial::SetYM (const float fYM)
 // ---------------------------------------------------------------------------
-// Function: sets the young's modulus value
+// Function: Sets the young's modulus value
 // Input:    YM value
-// Output:   none
+// Output:   None
 // ---------------------------------------------------------------------------
 {
     m_fYM = fYM;
 }
 
-void CMaterial::SetCTE (const float fCTE)
+void CMaterial::SetCompStr (const float fCompStr)
 // ---------------------------------------------------------------------------
-// Function: sets the coef of thermal expansion value
-// Input:    CTE value
-// Output:   none
+// Function: Sets the compressive strength value
+// Input:    Compressive strength value
+// Output:   None
 // ---------------------------------------------------------------------------
 {
-    m_fCTE = fCTE;
+    m_fCompStr = fCompStr;
 }
 
+void CMaterial::SetYieldStr(const float fYieldStr)
+// ---------------------------------------------------------------------------
+// Function: Sets the yield strength value
+// Input:    Yield strength value
+// Output:   None
+// ---------------------------------------------------------------------------
+{
+    m_fYieldStr = fYieldStr;
+}
+
+void CMaterial::SetDensity(const float fDensity)
+// ---------------------------------------------------------------------------
+// Function: Sets the density value
+// Input:    Density value
+// Output:   None
+// ---------------------------------------------------------------------------
+{
+    m_fDensity = fDensity;
+}
+
+void CMaterial::SetPoisson(const float fPoisson)
+// ---------------------------------------------------------------------------
+// Function: Sets the poisson's ratio value
+// Input:    Poisson's ratio value
+// Output:   None
+// ---------------------------------------------------------------------------
+{
+    m_fPoisson = fPoisson;
+}

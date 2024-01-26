@@ -13,6 +13,9 @@ Implementation of the CElement class.
 
 *********************************************/
 #include "element.h"
+#include "MatToolBox.h"
+#include "constants.h"
+#include "clockEXH.h"
 
 CElement::CElement ()
 // ---------------------------------------------------------------------------
@@ -21,23 +24,12 @@ CElement::CElement ()
 // Output:   none
 // ---------------------------------------------------------------------------
 {
-    m_nSN = m_nEN = m_nMPGroup = 0;
-    m_pEPGroup = NULL;
+    m_nDOF = m_nLineNumber = m_nElementLoads = 0;
+    m_nDebugLevel = 0;
+    m_strDelimiters = "\t, "; // tab space and comma delimited file
+    m_strComment = "**";
     m_fLength = 0.0f;
-}
-
-CElement::CElement (const CElement& EO)
-// ---------------------------------------------------------------------------
-// Function: copy constructor
-// Input:    none
-// Output:   none
-// ---------------------------------------------------------------------------
-{
-    m_nSN = EO.m_nSN;
-    m_nEN = EO.m_nEN;
-    m_nMPGroup = EO.m_nMPGroup;
-    m_pEPGroup = EO.m_pEPGroup;
-    m_fLength = EO.m_fLength;
+    m_Type = CElement::ElementType::COLUMN;
 }
 
 CElement::~CElement ()
@@ -49,26 +41,45 @@ CElement::~CElement ()
 {
 }
 
-void CElement::GetENodes (int& nSN, int& nEN) const
+void CElement::Analyze()
 // ---------------------------------------------------------------------------
-// Function: obtains the element start and end node numbers
-// Input:    variables to hold the values
-// Output:   the start and end node numbers
-// ---------------------------------------------------------------------------
-{
-    nSN = m_nSN;
-    nEN = m_nEN;
-}
-
-void CElement::SetENodes (const int nSN, const int nEN) 
-// ---------------------------------------------------------------------------
-// Function: sets the element start and end node numbers
-// Input:    the start and end node numbers
+// Function: Reads the input data and analyzes the frame
+// Input:    none
 // Output:   none
 // ---------------------------------------------------------------------------
 {
-    m_nSN = nSN;
-    m_nEN = nEN;
+    // Start Timer
+    Timer.MarkTime();
+    Timer.GetDateTime(m_strDateTime);
+
+    // read the problem size
+    ReadProblemSize();
+
+    // set problem size
+    SetSize();
+
+    // read nodal and element data
+    ReadFrameModel();
+
+    // create output file
+    Timer.GetDateTime(m_strEndDateTime);
+    CreateOutput();
+}
+
+void CElement::SetSize()
+// ---------------------------------------------------------------------------
+// Function: memory allocation for all major arrays in the program
+// Input:    none
+// Output:   none
+// ---------------------------------------------------------------------------
+{
+    // allocate space for nodal loads data
+    m_ElementLoadData.SetSize(m_nElementLoads);
+    m_NodalLoadData.SetSize(2);
+    m_ConcMatData.SetSize(1);
+    m_ReData.SetSize(m_nXSR);
+    m_ReMatData.SetSize(1);
+    m_EPData.SetSize(1);
 }
 
 void CElement::SetEPropertyGroup (CXSType* pEPG)
@@ -131,4 +142,39 @@ void CElement::SetLength(const float fLength)
 // ---------------------------------------------------------------------------
 {
     m_fLength = fLength;
+}
+
+CElement::ElementType CElement::GetType() const
+// ---------------------------------------------------------------------------
+// Function: Gets the element type
+// Input:    none
+// Output:   the start and end node numbers
+// ---------------------------------------------------------------------------
+{
+    return m_Type;
+}
+
+void CElement::SetType(CElement::ElementType Type)
+// ---------------------------------------------------------------------------
+// Function: sets the element start and end node numbers
+// Input:    the start and end node numbers
+// Output:   none
+// ---------------------------------------------------------------------------
+{
+    m_Type = Type;
+}
+
+void CElement::ErrorHandler(CLocalErrorHandler::ERRORCODE ErrorCode)
+{
+    throw ErrorCode;
+}
+
+void CElement::ErrorHandler(CGlobalErrorHandler::ERRORCODE ErrorCode) const
+{
+    throw ErrorCode;
+}
+
+void CElement::DisplayErrorMessage(CLocalErrorHandler::ERRORCODE err)
+{
+    m_LEH.ErrorHandler(err, m_nLineNumber);
 }

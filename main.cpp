@@ -1,4 +1,4 @@
-/*********************************************
+/**********************************************
 Concrete and Steel Cross-Section Design Program
 
 Created by: Aaron Fairchild
@@ -7,9 +7,9 @@ Date: Spring 2024
 
 TODO:
 
-*********************************************/
+**********************************************/
 
-#include "frame.h"
+#include "element.h"
 #include "clockEXH.h"
 
 int main (int argc, char *argv[])
@@ -18,14 +18,14 @@ int main (int argc, char *argv[])
     // and route the error messages from the CVector and CMatrix classes
     CArrayBase AB;
     {
-        CFrame TheFrame; // the one and only frame!
+        CElement TheElement; // the one and only element!
         try
         {
 	        // show program banner
-            TheFrame.Banner (std::cout);
+            TheElement.Banner (std::cout);
 
 	        // Prepare for I/O
-	        TheFrame.PrepareIO (argc, argv);
+	        TheElement.PrepareIO (argc, argv);
 	
             // start the timer --------------------------------------------------------
             CClock Timer;
@@ -34,7 +34,7 @@ int main (int argc, char *argv[])
             std::cout << "\nStarting out at : " << strDateTime << "\n";
 
             // read the data and analyze
-            TheFrame.Analyze ();
+            TheElement.Analyze ();
 
             // end the timer --------------------------------------------------------
             // get the current date and time
@@ -50,7 +50,7 @@ int main (int argc, char *argv[])
         // errors trapped by this program
         catch (CLocalErrorHandler::ERRORCODE &err)
         {
-            TheFrame.DisplayErrorMessage (err);
+            TheElement.DisplayErrorMessage (err);
         }
 
         // errors trapped by the library functions
@@ -78,7 +78,7 @@ int main (int argc, char *argv[])
         }
 
         // Close input and output files
-        TheFrame.TerminateProgram ();
+        TheElement.TerminateProgram ();
     }
 
     AB.ShowStatistics (std::cout);

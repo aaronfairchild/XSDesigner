@@ -17,7 +17,6 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -53,27 +52,24 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="Shared" >
+  <ImportGroup Label="Shared">
   </ImportGroup>
-    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    </ImportGroup>
-    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    </ImportGroup>
-    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    </ImportGroup>
-    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    </ImportGroup>
-
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -108,6 +104,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>.;LibraryEXH</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,8 +128,55 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-
-  <ItemGroup></ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="circsolid.cpp" />
+    <ClCompile Include="element.cpp" />
+    <ClCompile Include="elementloads.cpp" />
+    <ClCompile Include="io.cpp" />
+    <ClCompile Include="LibraryEXH\arraybasecontainerEXH.cpp" />
+    <ClCompile Include="LibraryEXH\clockEXH.cpp" />
+    <ClCompile Include="LibraryEXH\fileioEXH.cpp" />
+    <ClCompile Include="LibraryEXH\getinteractiveEXH.cpp" />
+    <ClCompile Include="LibraryEXH\GlobalErrorHandler.cpp" />
+    <ClCompile Include="LibraryEXH\NumericalIntegrationEXH.cpp" />
+    <ClCompile Include="LibraryEXH\parserEXH.cpp" />
+    <ClCompile Include="LibraryEXH\printtableEXH.cpp" />
+    <ClCompile Include="LocalErrorHandler.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="material.cpp" />
+    <ClCompile Include="nodalloads.cpp" />
+    <ClCompile Include="rectsolid.cpp" />
+    <ClCompile Include="reinforcement.cpp" />
+    <ClCompile Include="tsection.cpp" />
+    <ClCompile Include="xstype.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="circsolid.h" />
+    <ClInclude Include="constants.h" />
+    <ClInclude Include="element.h" />
+    <ClInclude Include="elementloads.h" />
+    <ClInclude Include="LibraryEXH\arraybasecontainerEXH.h" />
+    <ClInclude Include="LibraryEXH\ArrayContainersEXH.h" />
+    <ClInclude Include="LibraryEXH\clockEXH.h" />
+    <ClInclude Include="LibraryEXH\fileioEXH.h" />
+    <ClInclude Include="LibraryEXH\getinteractiveEXH.h" />
+    <ClInclude Include="LibraryEXH\GlobalErrorHandler.h" />
+    <ClInclude Include="LibraryEXH\matrixcontainerEXH.h" />
+    <ClInclude Include="LibraryEXH\NumericalIntegrationEXH.h" />
+    <ClInclude Include="LibraryEXH\parserEXH.h" />
+    <ClInclude Include="LibraryEXH\printtableEXH.h" />
+    <ClInclude Include="LibraryEXH\TGetinteractiveEXH.h" />
+    <ClInclude Include="LibraryEXH\vectorcontainerEXH.h" />
+    <ClInclude Include="LocalErrorHandler.h" />
+    <ClInclude Include="material.h" />
+    <ClInclude Include="MatToolBox.h" />
+    <ClInclude Include="nodalloads.h" />
+    <ClInclude Include="rectsolid.h" />
+    <ClInclude Include="reinforcement.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="tsection.h" />
+    <ClInclude Include="xstype.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

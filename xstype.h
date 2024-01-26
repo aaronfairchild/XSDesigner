@@ -16,7 +16,7 @@ Object-Oriented Numerical Analysis
 class CXSType
 {
     public:
-        enum class EPType { CIRCH, CIRCS, RECTS, ISECTION };
+        enum class EPType {CIRCS, RECTS, TSECTION };
 
         CXSType ();
         CXSType (int);

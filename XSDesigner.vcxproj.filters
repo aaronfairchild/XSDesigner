@@ -13,5 +13,147 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="LibraryEXH">
+      <UniqueIdentifier>{01e6f7ec-42de-48a0-8be4-3dd9075d8c25}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="LibraryEXH\arraybasecontainerEXH.cpp">
+      <Filter>LibraryEXH</Filter>
+    </ClCompile>
+    <ClCompile Include="LibraryEXH\clockEXH.cpp">
+      <Filter>LibraryEXH</Filter>
+    </ClCompile>
+    <ClCompile Include="LibraryEXH\fileioEXH.cpp">
+      <Filter>LibraryEXH</Filter>
+    </ClCompile>
+    <ClCompile Include="LibraryEXH\getinteractiveEXH.cpp">
+      <Filter>LibraryEXH</Filter>
+    </ClCompile>
+    <ClCompile Include="LibraryEXH\GlobalErrorHandler.cpp">
+      <Filter>LibraryEXH</Filter>
+    </ClCompile>
+    <ClCompile Include="LibraryEXH\NumericalIntegrationEXH.cpp">
+      <Filter>LibraryEXH</Filter>
+    </ClCompile>
+    <ClCompile Include="LibraryEXH\parserEXH.cpp">
+      <Filter>LibraryEXH</Filter>
+    </ClCompile>
+    <ClCompile Include="LibraryEXH\printtableEXH.cpp">
+      <Filter>LibraryEXH</Filter>
+    </ClCompile>
+    <ClCompile Include="xstype.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rectsolid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nodalloads.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LocalErrorHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="io.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="elementloads.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="element.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="circsolid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tsection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="reinforcement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LibraryEXH\arraybasecontainerEXH.h">
+      <Filter>LibraryEXH</Filter>
+    </ClInclude>
+    <ClInclude Include="LibraryEXH\ArrayContainersEXH.h">
+      <Filter>LibraryEXH</Filter>
+    </ClInclude>
+    <ClInclude Include="LibraryEXH\clockEXH.h">
+      <Filter>LibraryEXH</Filter>
+    </ClInclude>
+    <ClInclude Include="LibraryEXH\fileioEXH.h">
+      <Filter>LibraryEXH</Filter>
+    </ClInclude>
+    <ClInclude Include="LibraryEXH\getinteractiveEXH.h">
+      <Filter>LibraryEXH</Filter>
+    </ClInclude>
+    <ClInclude Include="LibraryEXH\GlobalErrorHandler.h">
+      <Filter>LibraryEXH</Filter>
+    </ClInclude>
+    <ClInclude Include="LibraryEXH\matrixcontainerEXH.h">
+      <Filter>LibraryEXH</Filter>
+    </ClInclude>
+    <ClInclude Include="LibraryEXH\NumericalIntegrationEXH.h">
+      <Filter>LibraryEXH</Filter>
+    </ClInclude>
+    <ClInclude Include="LibraryEXH\parserEXH.h">
+      <Filter>LibraryEXH</Filter>
+    </ClInclude>
+    <ClInclude Include="LibraryEXH\printtableEXH.h">
+      <Filter>LibraryEXH</Filter>
+    </ClInclude>
+    <ClInclude Include="LibraryEXH\TGetinteractiveEXH.h">
+      <Filter>LibraryEXH</Filter>
+    </ClInclude>
+    <ClInclude Include="LibraryEXH\vectorcontainerEXH.h">
+      <Filter>LibraryEXH</Filter>
+    </ClInclude>
+    <ClInclude Include="LocalErrorHandler.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="circsolid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="element.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="elementloads.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MatToolBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nodalloads.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rectsolid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xstype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tsection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="reinforcement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
