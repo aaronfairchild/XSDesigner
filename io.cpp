@@ -17,7 +17,6 @@ TODO:
 #include "getinteractiveEXH.h"
 #include "parserEXH.h"
 #include "fileioEXH.h"
-#include "elementloads.h"
 #include "circsolid.h"
 #include "tsection.h"
 #include "printtableEXH.h"
@@ -88,34 +87,33 @@ void CElement::ReadProblemSize ()
     try
     {
         // Read the Problem Description
-        m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
-                           m_nTokens, m_strDelimiters, m_strComment,
-                           bEOF);
-        std::cout << m_strVTokens[0] << '\n';
+        m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
+            m_nTokens, m_strDelimiters, m_strComment,
+            bEOF);
         if (m_strVTokens[0] != "*heading")
-            IOErrorHandler (ERRORCODE::INVALIDINPUT);
+            IOErrorHandler(ERRORCODE::INVALIDINPUT);
 
-        m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
-                           m_nTokens, m_strDelimiters, m_strComment,
-                           bEOF);
+        m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
+            m_nTokens, m_strDelimiters, m_strComment,
+            bEOF);
 
         // Unit Mode
-        m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
-                           m_nTokens, m_strDelimiters, m_strComment,
-                           bEOF);
+        m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
+            m_nTokens, m_strDelimiters, m_strComment,
+            bEOF);
         if (m_strVTokens[0] != "*unit" && m_strVTokens[1] != "mode")
-            IOErrorHandler (ERRORCODE::INVALIDINPUT);
+            IOErrorHandler(ERRORCODE::INVALIDINPUT);
         m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
             m_nTokens, m_strDelimiters, m_strComment,
             bEOF);
 
         // Member Type
-        m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
-                           m_nTokens, m_strDelimiters, m_strComment,
-                           bEOF);
+        m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
+            m_nTokens, m_strDelimiters, m_strComment,
+            bEOF);
         if (m_strVTokens[0] != "*column" && m_strVTokens[1] != "or" && m_strVTokens[2] != "beam")
             IOErrorHandler(ERRORCODE::INVALIDINPUT);
-        
+
         m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
             m_nTokens, m_strDelimiters, m_strComment,
             bEOF);
@@ -163,9 +161,9 @@ void CElement::ReadProblemSize ()
 
         for (;;)
         {
-            m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
-                               m_nTokens, m_strDelimiters, m_strComment,
-                               bEOF);
+            m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
+                m_nTokens, m_strDelimiters, m_strComment,
+                bEOF);
             if (m_strVTokens[0] == "*transverse" && m_strVTokens[1] == "reinforcements")
                 break;
             ++m_nXSR;
@@ -177,41 +175,28 @@ void CElement::ReadProblemSize ()
             m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
                 m_nTokens, m_strDelimiters, m_strComment,
                 bEOF);
-            if (m_strVTokens[0] == "*nodal" && m_strVTokens[1] == "forces")
+            if (m_strVTokens[0] == "*transverse" && m_strVTokens[1] == "spacings")
                 break;
             ++m_nTR;
         }
 
-        // Nodal Forces and Moments
+        // Transverse Reinforcement Spacings
         m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
             m_nTokens, m_strDelimiters, m_strComment,
             bEOF);
-        if (m_strVTokens[0] != "start")
-            IOErrorHandler(ERRORCODE::INVALIDINPUT);
 
+        // Max Values
+        if (m_strVTokens[0] != "*max" && m_strVTokens[1] != "values") {
         m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
             m_nTokens, m_strDelimiters, m_strComment,
             bEOF);
-        if (m_strVTokens[0] != "end")
-            IOErrorHandler(ERRORCODE::INVALIDINPUT);
-
-       // Element Loads
-        m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
-            m_nTokens, m_strDelimiters, m_strComment,
-            bEOF);
-        if (m_strVTokens[0] != "*element" && m_strVTokens[1] != "loads")
-            IOErrorHandler(ERRORCODE::INVALIDINPUT);
-
-        for (;;)
-        {
-            m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
-                                   m_nTokens, m_strDelimiters, m_strComment,
-                                   bEOF);
-            if (m_strVTokens[0] == "*end")
-                break;
-            ++m_nElementLoads;
-        
         }
+        if (m_strVTokens[0] != "*max" && m_strVTokens[1] != "values")
+            IOErrorHandler(ERRORCODE::INVALIDINPUT);
+
+        m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
+            m_nTokens, m_strDelimiters, m_strComment,
+            bEOF);
     }
     // Trap all input file errors here
     catch (CLocalErrorHandler::ERRORCODE &err)
@@ -234,7 +219,7 @@ void CElement::ReadProblemSize ()
         IOErrorHandler (ERRORCODE::DEBUGCODE);
 }
 
-void CElement::ReadFrameModel ()
+void CElement::ReadModel ()
 // ---------------------------------------------------------------------------
 // Function: Reads the rest of the frame data from input file
 // Input:    none
@@ -378,120 +363,75 @@ void CElement::ReadFrameModel ()
         if (m_strVTokens[0] != "*XS REINFORCEMENTS")
             IOErrorHandler(ERRORCODE::XSREINFO);
             */
-        std::string strType, strSize, strSpacing;
-        float fRow, fNumBars, fSpacing, fHEdge, fVEdge;
+
+        float fBarDia, fX, fY;
+        CVector<float> fVReData(3*m_nXSR);
+        
         for (int i = 1; i <= m_nXSR; i++) {
             m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
                 m_nTokens, m_strDelimiters, m_strComment,
                 bEOF);
-
-            strType = m_strVTokens[0];
-            m_Parse.GetFloatValue(m_strVTokens[1], fRow);
-            m_Parse.GetFloatValue(m_strVTokens[2], fNumBars);
-            strSize = m_strVTokens[3];
-            strSpacing = m_strVTokens[4];
-            m_Parse.GetFloatValue(m_strVTokens[5], fHEdge);
-            m_Parse.GetFloatValue(m_strVTokens[6], fVEdge);
-            if (strSpacing == "eql") {
-                m_ReData(i).SetXSReData(strType, fRow, fNumBars, strSize, strSpacing, fHEdge, fVEdge);
-            }
-            else {
-                m_Parse.GetFloatValue(m_strVTokens[4], fSpacing);
-                m_ReData(i).SetXSReData(strType, fRow, fNumBars, strSize, fSpacing, fHEdge, fVEdge);
-            }
+            m_Parse.GetFloatValue(m_strVTokens[0], fBarDia);
+            m_Parse.GetFloatValue(m_strVTokens[1], fX);
+            m_Parse.GetFloatValue(m_strVTokens[2], fY);
+            fVReData(3 * i - 2) = fBarDia;
+            fVReData(3 * i - 1) = fX;
+            fVReData(3 * i) = fY;
         }
-        
+        m_ReData(1).SetSize(3*m_nXSR);
+        m_ReData(1).SetXSReData(fVReData);
 
-        // Read Transverse Reinforcements data (NOT COMPLETED)
-        m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
-            m_nTokens, m_strDelimiters, m_strComment,
-            bEOF);
-        m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
-            m_nTokens, m_strDelimiters, m_strComment,
-            bEOF);
-        strType = m_strVTokens[0];
-        m_Parse.GetFloatValue(m_strVTokens[1], fRow);
-        strSize = m_strVTokens[2];
-        /* EXPETED INPUT
-        for (int i = 1; i <= 3; i++) {
-            m_Parse.GetFloatValue(m_strVTokens[i + 2], fVC(i));
-            m_Parse.GetFloatValue(m_strVTokens[i + 1], fVC(i + 1));
-        }
-        */
-        // Read nodal loads
-        m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
-            m_nTokens, m_strDelimiters, m_strComment,
-            bEOF);
-        m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
-            m_nTokens, m_strDelimiters, m_strComment,
-            bEOF);
-        if (m_nTokens != 4)
-            IOErrorHandler(ERRORCODE::INVALIDINPUT);
-        strTag = m_strVTokens[0];
-        if (strTag != "start")
-            IOErrorHandler(ERRORCODE::INVALIDINPUT);
-        m_Parse.GetFloatValue(m_strVTokens[1], fVC(1));
-        m_Parse.GetFloatValue(m_strVTokens[2], fVC(2));
-        m_Parse.GetFloatValue(m_strVTokens[3], fVC(3));
-        m_NodalLoadData(1).SetValues(fVC);
+        // Read Transverse Reinforcements data
 
         m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
             m_nTokens, m_strDelimiters, m_strComment,
             bEOF);
-        if (m_nTokens != 4)
-            IOErrorHandler(ERRORCODE::INVALIDINPUT);
-        strTag = m_strVTokens[0];
-        if (strTag != "end")
-            IOErrorHandler(ERRORCODE::INVALIDINPUT);
-        m_Parse.GetFloatValue(m_strVTokens[1], fVC(1));
-        m_Parse.GetFloatValue(m_strVTokens[2], fVC(2));
-        m_Parse.GetFloatValue(m_strVTokens[3], fVC(3));
-        m_NodalLoadData(2).SetValues(fVC);
-
-        // read element loads
-        m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
-                           m_nTokens, m_strDelimiters, m_strComment,
-                           bEOF);
-        std::string strEType;
-        CVector<float> fVELoads(2);
-        int counter = 1;
-        for (;;)
-        {
-            m_Parse.GetTokens (m_FileInput, m_nLineNumber, m_strVTokens,
+        for (int i = 1; i <= m_nTR; i++) {
+            m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
                                m_nTokens, m_strDelimiters, m_strComment,
                                bEOF);
-            if (m_strVTokens[0] == "*end")
-                break;
-            if (m_nTokens != 3)
-                IOErrorHandler (ERRORCODE::INVALIDINPUT);
-            strEType = m_strVTokens[0];
-            m_Parse.GetFloatValue(m_strVTokens[1], fVELoads(1));
-            m_Parse.GetFloatValue(m_strVTokens[2], fVELoads(2));
-            if (strEType != "dly'" && strEType != "ploadx'" &&
-                strEType != "ploady'" && strEType != "cmoment")
-                IOErrorHandler (ERRORCODE::ELOADTYPE);
+            m_nVTransSegments(i) = (m_nTokens - 1) / 2 - 1;
+            CVector<float> fVTransReData(m_nTokens);
+            fVTransReData.Set(0.0f);
 
-            if (strEType == "dly'") {
-                m_ElementLoadData(counter).SetValues(1, CElementLoads::ELType::DISTRIBUTEDY,
-                    fVELoads(1), fVELoads(2));
-                counter += 1;
+            m_Parse.GetFloatValue(m_strVTokens[0], fBarDia);
+            fVTransReData(1) = fBarDia;
+
+            for (int j = 1; j <= m_nVTransSegments(i); j++) {
+                m_Parse.GetFloatValue(m_strVTokens[2*j-1], fVTransReData(2*j));
+                m_Parse.GetFloatValue(m_strVTokens[2*j], fVTransReData(2*j+1));
             }
-            else if (strEType == "ploadx'") {
-                m_ElementLoadData(counter).SetValues(1, CElementLoads::ELType::CONCENTRATEDX,
-                    fVELoads(1), fVELoads(2));
-                counter += 1;
-            }
-            else if (strEType == "ploady'") {
-                m_ElementLoadData(counter).SetValues(1, CElementLoads::ELType::CONCENTRATEDY,
-                    fVELoads(1), fVELoads(2));
-                counter += 1;
-            }
-            else if (strEType == "cmoment") {
-                m_ElementLoadData(counter).SetValues(1, CElementLoads::ELType::CONCENTRATEDM,
-                    fVELoads(1), fVELoads(2));
-                counter += 1;
-            }
+            m_TransReData(i).SetSize(m_nTokens);
+            m_TransReData(i).SetXSReData(fVTransReData);
         }
+
+        // read transverse spacings (NOT COMPLETE)
+        if (m_strVTokens[0] != "*max" && m_strVTokens[1] != "values") {
+            m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
+                m_nTokens, m_strDelimiters, m_strComment,
+                bEOF);
+        }
+
+        // read max values
+        if (m_strVTokens[0] != "*max" && m_strVTokens[1] != "values") {
+            m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
+                m_nTokens, m_strDelimiters, m_strComment,
+                bEOF);
+        }
+
+        float fMaxAxial, fAxialLoc, fMaxShear, fShearLoc, fMaxMoment, fMomentLoc;
+        m_Parse.GetTokens(m_FileInput, m_nLineNumber, m_strVTokens,
+            m_nTokens, m_strDelimiters, m_strComment,
+            bEOF);
+        m_Parse.GetFloatValue(m_strVTokens[0], fMaxAxial);
+        m_Parse.GetFloatValue(m_strVTokens[1], fAxialLoc);
+        m_Parse.GetFloatValue(m_strVTokens[2], fMaxShear);
+        m_Parse.GetFloatValue(m_strVTokens[3], fShearLoc);
+        m_Parse.GetFloatValue(m_strVTokens[4], fMaxMoment);
+        m_Parse.GetFloatValue(m_strVTokens[5], fMomentLoc);
+
+        m_ElementData(1).SetMaxValues(fMaxAxial, fAxialLoc, fMaxShear, fShearLoc, fMaxMoment, fMomentLoc);
+
     }
     // trap all input file errors here
     catch (CLocalErrorHandler::ERRORCODE &err)
@@ -517,180 +457,26 @@ void CElement::CreateOutput ()
 // Output:   none
 // ---------------------------------------------------------------------------
 {
-    /*// print analysis date and time
+    // print analysis date and time
     m_FileOutput << '\n';
     m_FileOutput << "Starting out at : " << m_strDateTime << '\n';
 
     // problem description
-
     m_FileOutput << "-------------------" << '\n';
     m_FileOutput << "MATERIAL PROPERTIES" << '\n';
     m_FileOutput << "-------------------" << '\n';
     m_FileOutput << "Group    Young's Modulus                CTE" << '\n';
     m_FileOutput << "-----    ---------------    ---------------" << '\n';
-    for (int nGroup = 1; nGroup <= m_nMatGroups; nGroup++)
-    {
-        float fYM = m_MaterialData(nGroup).GetYM();
-        float fCTE = m_MaterialData(nGroup).GetCTE();
-        m_FileOutput << std::setw(5) << nGroup << "    ";
-        m_FileOutput << std::setw(15) << fYM << "    ";
-        m_FileOutput << std::setw(15) << fCTE << '\n';
-    }
+    
     m_FileOutput << '\n';
-    m_FileOutput << "--------------------------" << '\n';
-    m_FileOutput << "CROSS-SECTIONAL DIMENSIONS" << '\n';
-    m_FileOutput << "--------------------------" << '\n';
-    m_FileOutput << "Group               Type         Dimensions" << '\n';
-    m_FileOutput << "-----    ---------------    ---------------" << '\n';
-    CVector<float> fDims(MAXEPDIM);
-
-    CXSType* pXSGrp;
-    CXSType::EPType myType;
-    CVector<float> fV(MAXEPDIM);
-    for (int nGroup = 1; nGroup <= m_nEPGroups; nGroup++)
-    {
-        pXSGrp = m_EPData(nGroup);
-        pXSGrp->GetType(myType);
-        pXSGrp->GetDimensions(fV);
-        if (myType == CXSType::EPType::CIRCH) {
-            m_FileOutput << std::setw(5) << nGroup << "       ";
-            m_FileOutput << std::setw(15) << "Circ. Hollow" << " ";
-            m_FileOutput << std::setw(15) << "Inner Radius = " << fV(1) << '\n';
-            m_FileOutput << std::setw(42) << "                         Wall Thickness = " << fV(2) << '\n';
-        }
-        if (myType == CXSType::EPType::CIRCS) {
-            m_FileOutput << std::setw(5) << nGroup << "        ";
-            m_FileOutput << std::setw(15) << "Circ. Solid" << "    ";
-            m_FileOutput << std::setw(15) << "Radius = " << fV(1) << '\n';
-        }
-        if (myType == CXSType::EPType::ISECTION) {
-            m_FileOutput << std::setw(5) << nGroup << "    ";
-            m_FileOutput << std::setw(15) << "I-Section" << "   ";
-            m_FileOutput << std::setw(15) << "Web Height = " << fV(1) << '\n';
-            m_FileOutput << std::setw(42) << "Web Thickness = " << fV(2) << '\n';
-            m_FileOutput << std::setw(42) << "Flange Width = " << fV(3) << '\n';
-            m_FileOutput << std::setw(42) << "Flange Thickness = " << fV(4) << '\n';
-        }
-        if (myType == CXSType::EPType::RECTS) {
-            m_FileOutput << std::setw(5) << nGroup << "    ";
-            m_FileOutput << std::setw(15) << "Rect. Solid" << " ";
-            m_FileOutput << std::setw(15) << "Height = " << fV(1) << '\n';
-            m_FileOutput << std::setw(39) << "Width = " << fV(2) << '\n';
-        }
-    }
-
-    float fArea, fIyy, fIzz, fSyy, fSzz, fSFyy, fSFzz;
-    m_FileOutput << '\n';
-    m_FileOutput << "--------------------------" << '\n';
-    m_FileOutput << "CROSS-SECTIONAL PROPERTIES" << '\n';
-    m_FileOutput << "--------------------------" << '\n';
-    m_FileOutput << "Group                Area     Moment of Inertia         Shear Factor      Section Modulus" << '\n';
-    m_FileOutput << "-----    -----------------    -----------------    -----------------    -----------------" << '\n';
-    for (int i = 1; i <= m_nEPGroups; i++) {
-        m_EPData(i)->GetProperties(fArea, fIyy, fIzz, fSyy, fSzz, fSFyy, fSFzz);
-        float fI = (fIyy > fIzz ? fIyy : fIzz);
-        float fS = (fIyy > fIzz ? fSyy : fSzz);
-        float fSF = (fIyy > fIzz ? fSFzz : fSFyy);
-        m_FileOutput << std::setw(5) << i << "    ";
-        m_FileOutput << std::setw(17) << fArea << "    ";
-        m_FileOutput << std::setw(17) << fI << "    ";
-        m_FileOutput << std::setw(17) << fSF << "    ";
-        m_FileOutput << std::setw(17) << fS << "    \n";
-    }
-
-    m_FileOutput << '\n';
-    m_FileOutput << "-----------" << '\n';
-    m_FileOutput << "NODAL FORCES" << '\n';
-    m_FileOutput << "-----------" << '\n';
-    m_FileOutput << "Node    X-Force    Y-Force    Z-Force    Delta-T" << '\n';
-    m_FileOutput << "----    -------    -------    -------    -------" << '\n';
-    CVector<float> fNL(DOFPN);
-    for (int i = 1; i <= m_nNodes; i++) {
-        m_NodalLoadData(i).GetValues(fNL);
-        if (fNL(1) == 0.0f && fNL(2) == 0.0f && fNL(3) == 0.0f) {
-            continue;
-        }
-        m_FileOutput << std::setw(4) << i << "    ";
-        m_FileOutput << std::setw(7) << fNL(1) << "    ";
-        m_FileOutput << std::setw(7) << fNL(2) << "    ";
-        m_FileOutput << std::setw(7) << fNL(3) << "    \n";
-    }
-
-    m_FileOutput << '\n';
-    m_FileOutput << "------------------------------" << '\n';
-    m_FileOutput << "ELEMENT CONCENTRATED LOAD DATA" << '\n';
-    m_FileOutput << "------------------------------" << '\n';
-    m_FileOutput << "Element                    Type    Dist from Start Node          Load Intensity" << '\n';
-    m_FileOutput << "-------    --------------------    --------------------    --------------------" << '\n';
-    float f1; float f2; CElementLoads::ELType Type;
-    int nTag;
-    for (int i = 1; i <= m_nElementLoads; i++) {
-        m_ElementLoadData(i).GetValues(nTag, Type, f1, f2);
-        if (Type == CElementLoads::ELType::CONCENTRATEDM) {
-            m_FileOutput << std::setw(7) << nTag << "    ";
-            m_FileOutput << std::setw(20) << "Conc. Moment Load" << "    ";
-            m_FileOutput << std::setw(20) << f1 << "    ";
-            m_FileOutput << std::setw(20) << f2 << "    \n";
-        }
-        if (Type == CElementLoads::ELType::CONCENTRATEDX) {
-            m_FileOutput << std::setw(7) << nTag << "    ";
-            m_FileOutput << std::setw(20) << "Conc. X Load" << "    ";
-            m_FileOutput << std::setw(20) << f1 << "    ";
-            m_FileOutput << std::setw(20) << f2 << "    \n";
-        }
-        if (Type == CElementLoads::ELType::CONCENTRATEDY) {
-            m_FileOutput << std::setw(7) << nTag << "    ";
-            m_FileOutput << std::setw(20) << "Conc. Y Load" << "    ";
-            m_FileOutput << std::setw(20) << f1 << "    ";
-            m_FileOutput << std::setw(20) << f2 << "    \n";
-        }
-    }
-
-    m_FileOutput << '\n';
-    m_FileOutput << "-----------------------------" << '\n';
-    m_FileOutput << "ELEMENT DISTRIBUTED LOAD DATA" << '\n';
-    m_FileOutput << "-----------------------------" << '\n';
-    m_FileOutput << "Element                       Type    Intensity at Start Node             Load Intensity" << '\n';
-    m_FileOutput << "-------    -----------------------    -----------------------    -----------------------" << '\n';
-    for (int i = 1; i <= m_nElementLoads; i++) {
-        m_ElementLoadData(i).GetValues(nTag, Type, f1, f2);
-        if (Type == CElementLoads::ELType::DISTRIBUTEDY) {
-            m_FileOutput << std::setw(7) << nTag << "    ";
-            m_FileOutput << std::setw(23) << "Local y dist. load" << "    ";
-            m_FileOutput << std::setw(23) << f1 << "    ";
-            m_FileOutput << std::setw(23) << f2 << "    \n";
-        }
-    }
-
-    m_FileOutput << '\n';
-    m_FileOutput << "==============================================================================" << '\n';
-    m_FileOutput << "== FEA RESULTS ===============================================================" << '\n';
-    m_FileOutput << "==============================================================================" << '\n';
-
-    m_FileOutput << '\n';
-    m_FileOutput << "----------------------------" << '\n';
-    m_FileOutput << "MAX. ELEMENT INTERNAL FORCES" << '\n';
-    m_FileOutput << "----------------------------" << '\n';
-    m_FileOutput << "Element            Axial            Shear           Moment" << '\n';
-    m_FileOutput << "-------    -------------    -------------    -------------" << '\n';
-    CVector<float>fVFMax(DOFPN);
-    for (int i = 1; i <= m_nElements; i++) {
-        m_ElementData(i).GetENodes(nSN, nEN);
-        m_ElementResponseData(i).GetValues(fVFSN, fVFEN);
-        fVFMax(1) = (abs(fVFSN(1)) > abs(fVFEN(1)) ? fVFSN(1) : fVFEN(1));
-        fVFMax(2) = (abs(fVFSN(2)) > abs(fVFEN(2)) ? fVFSN(2) : fVFEN(2));
-        fVFMax(3) = (abs(fVFSN(3)) > abs(fVFEN(3)) ? fVFSN(3) : fVFEN(3));
-        m_FileOutput << std::setw(7) << i << "    ";
-        m_FileOutput << std::setw(13) << fVFMax(1) << "    ";
-        m_FileOutput << std::setw(13) << fVFMax(2) << "    ";
-        m_FileOutput << std::setw(13) << fVFMax(3) << "    \n";
-    }
+    m_FileOutput << "=================" << '\n';
+    m_FileOutput << "== FEA RESULTS ==" << '\n';
+    m_FileOutput << "=================" << '\n';
 
     // Print elapsed clock time
     m_FileOutput << '\n';
     m_FileOutput << "      Ending at : " << m_strEndDateTime;
     m_FileOutput << "      Elapsed clock time : " << Timer.DiffTime() << " s\n";
-    */
 }
 
 void CElement::IOErrorHandler (ERRORCODE ECode) const

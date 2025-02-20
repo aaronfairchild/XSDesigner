@@ -18,7 +18,9 @@ CReinforcement::CReinforcement ()
 // Output:   None
 // ---------------------------------------------------------------------------
 {
-    m_fRow = m_fNumBars = m_fSpacing = m_fHEdge = m_fVEdge = 0.0f;
+    m_fVCoords.Set(0.0f);
+    m_fVSizes.Set(0.0f);
+    m_fVReData.Set(0.0f);
 }
 
 CReinforcement::~CReinforcement ()
@@ -30,40 +32,33 @@ CReinforcement::~CReinforcement ()
 {
 }
 
-void CReinforcement::SetXSReData(const std::string& strType, const float& fRow,
-                                 const float& fNumBars, const std::string& strSize,
-                                 const std::string& strSpacing, const float& fHEdge,
-                                 const float& fVEdge)
+void CReinforcement::SetSize(float fSize)
+// ---------------------------------------------------------------------------
+// Function: Sets the input data vector size
+// Input:    needed size
+// Output:   None
+// ---------------------------------------------------------------------------
+{
+    m_fVReData.SetSize(fSize);
+}
+
+void CReinforcement::SetXSReData(CVector<float> fVReData)
 // ---------------------------------------------------------------------------
 // Function: Sets the cross-sectional reinforcement data
 // Input:    cross-sectional reinforcement data
 // Output:   None
 // ---------------------------------------------------------------------------
 {
-    m_strType = strType;
-    m_fRow = fRow;
-    m_fNumBars = fNumBars;
-    m_strSize = strSize;
-    m_strSpacing = strSpacing;
-    m_fHEdge = fHEdge;
-    m_fVEdge = fVEdge;
+    m_fVReData = fVReData;
 }
 
-void CReinforcement::SetXSReData(const std::string& strType, const float& fRow,
-    const float& fNumBars, const std::string& strSize,
-    const float& fSpacing, const float& fHEdge,
-    const float& fVEdge)
-    // ---------------------------------------------------------------------------
-    // Function: Sets the cross-sectional reinforcement data
-    // Input:    cross-sectional reinforcement data
-    // Output:   None
-    // ---------------------------------------------------------------------------
+float CReinforcement::GetArea()
+// ---------------------------------------------------------------------------
+// Function: Gets the total area of the reinforcing material
+// Input:    None
+// Output:   Total area of reinforcement
+// ---------------------------------------------------------------------------
 {
-    m_strType = strType;
-    m_fRow = fRow;
-    m_fNumBars = fNumBars;
-    m_strSize = strSize;
-    m_fSpacing = fSpacing;
-    m_fHEdge = fHEdge;
-    m_fVEdge = fVEdge;
+    m_fArea = 0.0f;
+    return m_fArea;
 }

@@ -33,9 +33,9 @@ class CMaterial
 
 
     private:
-        float m_fYM;   // young's modulus
-        float m_fCompStr; // compressive strength
+        float m_fYM;       // young's modulus
+        float m_fCompStr;  // compressive strength
         float m_fYieldStr; // yield strength
-        float m_fDensity; // density
-        float m_fPoisson; // poisson's ratio
+        float m_fDensity;  // density
+        float m_fPoisson;  // poisson's ratio
 };

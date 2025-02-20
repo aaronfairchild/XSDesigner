@@ -20,15 +20,9 @@ public:
     ~CReinforcement();  // dtor
 
     // Parse and set XS reinforcement data
-    void SetXSReData(const std::string& strType, const float& fRow,
-        const float& fNumBars, const std::string& strSize,
-        const std::string& strSpacing, const float& fHEdge,
-        const float& fVEdge);
-
-    void SetXSReData(const std::string& strType, const float& fRow,
-        const float& fNumBars, const std::string& strSize,
-        const float& fSpacing, const float& fHEdge,
-        const float& fVEdge);
+    void SetXSReData(CVector<float> fVReData);
+    void SetSize(float fSize);
+    float GetArea();
 
     // Parse and set Transverse reinforcement data
 
@@ -36,6 +30,6 @@ public:
 
 
 private:
-    std::string m_strType, m_strSize, m_strSpacing;
-    float m_fRow, m_fNumBars, m_fSpacing, m_fHEdge, m_fVEdge;
+    CVector<float> m_fVReData, m_fVSizes, m_fVCoords;
+    float m_fArea;
 };

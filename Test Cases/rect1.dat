@@ -1,0 +1,40 @@
+** Date: 2/11/24
+** 
+*HEADING 
+Sample American Input
+
+*UNIT MODE
+United States Customary
+
+*COLUMN OR BEAM
+Beam
+
+*CONCRETE MATERIAL PROPERTIES
+**Format: [Comp. Strength (psi)], [Density (pcf)], [Poisson's Ratio]
+	      4000,                   150,             0.2
+
+*REINFORCEMENT MATERIAL PROPERTIES
+**Format: [Yield Strength (ksi)], [Modulus (ksi)], [Density (pcf)]
+	      60,                     29000,           490
+
+*GEOMETRY
+**Format: [XS Type], [Dim. 1 (in)], [Dim. 2 (in)], [Dim. 3 (in)], [Dim. 4 (in)]
+          rectangular,         10,        25          
+
+*XS REINFORCEMENTS
+**Format: [Bar Diameter (in)], [X-Coordinate (in)], [Y-Coordinate (in)]
+        1, -2, -10.5
+        1, 0, -10.5
+        1, 2, -10.5
+
+*transverse reinforcements
+**Format: [Bar Diameter], [X1], [Y1], [X2], [Y2], [X3], [Y3], [X4], [Y4], [X5], [Y5], [X6], [Y6]         
+
+*TRANSVERSE SPACINGS
+**Format: [Spacing 1 (in)], [Spacing 2 (in)], [Spacing 3 (in)]
+      
+*max values
+**Format: [Max Axial (kip)], [Location (in)], [Max Shear (kip)], [Location (in)], [Max Moment (kip*in)], [Location (in)]
+    0, 5, 0, 5, 150, 5 
+
+*end

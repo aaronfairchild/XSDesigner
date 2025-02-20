@@ -59,11 +59,36 @@ void CElement::Analyze()
     SetSize();
 
     // read nodal and element data
-    ReadFrameModel();
+    ReadModel();
+
+    // find Mu/phi
+    FindMomentCapcity();
 
     // create output file
     Timer.GetDateTime(m_strEndDateTime);
     CreateOutput();
+}
+
+void CElement::FindMomentCapcity()
+// ---------------------------------------------------------------------------
+// Function: Calculates the moment capacity of the element
+// Input:    none
+// Output:   none
+// ---------------------------------------------------------------------------
+{
+    float As, fc, fy;
+    fc = m_ConcMatData(1).GetCompStr();
+    fy = m_ReMatData(1).GetYieldStr();
+
+    CXSType* pXSGrp;
+    CXSType::EPType myType;
+    CVector<float> fV(MAXEPDIM);
+    pXSGrp = m_EPData(1);
+    pXSGrp->GetType(myType);
+    pXSGrp->GetDimensions(fV);
+
+	delete pXSGrp;
+
 }
 
 void CElement::SetSize()
@@ -74,10 +99,12 @@ void CElement::SetSize()
 // ---------------------------------------------------------------------------
 {
     // allocate space for nodal loads data
-    m_ElementLoadData.SetSize(m_nElementLoads);
     m_NodalLoadData.SetSize(2);
     m_ConcMatData.SetSize(1);
     m_ReData.SetSize(m_nXSR);
+    m_TransReData.SetSize(m_nTR);
+    m_ElementData.SetSize(1);
+    m_nVTransSegments.SetSize(m_nTR);
     m_ReMatData.SetSize(1);
     m_EPData.SetSize(1);
 }
@@ -112,6 +139,23 @@ void CElement::SetMatPropertyGroup (const int nMPG)
 // ---------------------------------------------------------------------------
 {
     m_nMPGroup = nMPG;
+}
+
+void CElement::SetMaxValues(const float fMaxAxial, const float fAxialLoc,
+    const float fMaxShear, const float fShearLoc,
+    const float fMaxMoment, const float fMomentLoc)
+// ---------------------------------------------------------------------------
+// Function: sets the max values and their locations
+// Input:    max values and their locations
+// Output:   none
+// ---------------------------------------------------------------------------
+{
+    m_fMaxAxial = fMaxAxial;
+    m_fAxialLoc = fAxialLoc;
+    m_fMaxShear = fMaxShear;
+    m_fShearLoc = fShearLoc;
+    m_fMaxMoment = fMaxMoment;
+    m_fMomentLoc = fMomentLoc;
 }
 
 int CElement::GetMatPropertyGroup () const

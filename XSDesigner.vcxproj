@@ -131,7 +131,6 @@
   <ItemGroup>
     <ClCompile Include="circsolid.cpp" />
     <ClCompile Include="element.cpp" />
-    <ClCompile Include="elementloads.cpp" />
     <ClCompile Include="io.cpp" />
     <ClCompile Include="LibraryEXH\arraybasecontainerEXH.cpp" />
     <ClCompile Include="LibraryEXH\clockEXH.cpp" />
@@ -154,7 +153,6 @@
     <ClInclude Include="circsolid.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="element.h" />
-    <ClInclude Include="elementloads.h" />
     <ClInclude Include="LibraryEXH\arraybasecontainerEXH.h" />
     <ClInclude Include="LibraryEXH\ArrayContainersEXH.h" />
     <ClInclude Include="LibraryEXH\clockEXH.h" />

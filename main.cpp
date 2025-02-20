@@ -3,10 +3,11 @@ Concrete and Steel Cross-Section Design Program
 
 Created by: Aaron Fairchild
 Based on the work of: S.B. Rajan
-Date: Spring 2024
+Date: Spring 2025
 
 TODO:
-
+- Ensure all is deallocated
+- Moment capacity, rect.solid
 **********************************************/
 
 #include "element.h"
@@ -32,6 +33,7 @@ int main (int argc, char *argv[])
             std::string strDateTime;
             Timer.GetDateTime (strDateTime);
             std::cout << "\nStarting out at : " << strDateTime << "\n";
+            std::cout << "\nHello!";
 
             // read the data and analyze
             TheElement.Analyze ();

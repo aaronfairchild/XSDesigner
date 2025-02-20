@@ -16,6 +16,9 @@
     <Filter Include="LibraryEXH">
       <UniqueIdentifier>{01e6f7ec-42de-48a0-8be4-3dd9075d8c25}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test Cases">
+      <UniqueIdentifier>{26b9c558-6018-4d51-9cac-54556431e6d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LibraryEXH\arraybasecontainerEXH.cpp">
@@ -61,9 +64,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="io.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="elementloads.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="element.cpp">
@@ -126,9 +126,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="constants.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="elementloads.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="material.h">

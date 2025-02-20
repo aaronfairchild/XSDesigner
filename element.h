@@ -26,7 +26,6 @@ Object-Oriented Numerical Analysis
 #include "xstype.h"
 #include "rectsolid.h"
 #include "nodalloads.h"
-#include "elementloads.h"
 #include "LocalErrorHandler.h"
 #include "MatToolBox.h"
 #include "clockEXH.h"
@@ -68,6 +67,9 @@ class CElement
         void SetMatPropertyGroup (const int);
         void SetLength(const float fLength);
         void SetType(ElementType Type); // sets element type
+        void SetMaxValues(const float fMaxAxial, const float fAxialLoc,
+                          const float fMaxShear, const float fShearLoc,
+                          const float fMaxMoment,const float fMomentLoc);
         
 
     private:
@@ -77,6 +79,13 @@ class CElement
 
         int m_nDOF;			   // total degrees-of-freedom
         int m_nDebugLevel;	   // debugging level
+
+        float m_fMaxAxial;     // maximum axial force
+        float m_fAxialLoc;     // location of maximum axial force
+        float m_fMaxShear;     // maximum shear force
+        float m_fShearLoc;     // location of maximum shear force
+        float m_fMaxMoment;    // maximum moment
+        float m_fMomentLoc;    // location of maximum moment
 
         int m_nMPGroup;      // material property group
         float m_fLength;     // length of the element
@@ -88,8 +97,8 @@ class CElement
         CVector<CMaterial>          m_ReMatData;              // reinforcement material data
         CVector<CXSType*>			m_EPData;                  // element property data
         CVector<CReinforcement>     m_ReData;                  // reinforcement data
+        CVector<CReinforcement>     m_TransReData;             // transverse reinforcement data
         CVector<CNodalLoads>		m_NodalLoadData;           // nodal load data
-        CVector<CElementLoads>		m_ElementLoadData;         // element load data
 
         CMatrix<double> m_ELL;	 // element loads (local coor system)
 
@@ -106,6 +115,7 @@ class CElement
         CParser m_Parse;               // parser for free format read
         int     m_nV;                  // integer value that is read in
         float   m_fV;                  // float value that is read in
+        CVector<int> m_nVTransSegments;         // number of transverse reinforcement segments
         std::string m_strDelimiters;   // delimiters used in input file
         std::string m_strComment;      // characters to signify comment line
         std::vector<std::string> m_strVTokens; // vector to store tokens read
@@ -118,8 +128,9 @@ class CElement
 
 
         void ReadProblemSize();
-        void ReadFrameModel();
+        void ReadModel();
         void CreateOutput();
+        void FindMomentCapcity();
 
         // modifier functions
         void SetSize();
